@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import moment from 'moment';
 import {useLocation} from 'react-router-dom';
 
-import { Container, Section, EventsList, EventItemTitle, EventItem,NoData, EventSpan,EventDiv, Input} from '../styles/styles';
+import { Container, Section, EventsList, EventItemTitle, EventItem,NoData, EventSpan,EventDiv, Input,TextArea} from '../styles/styles';
 import Navigator from '../components/Navigator/index';
 import UsersInvite from '../components/UsersInvite/index';
 import api from '../services/api';
@@ -153,7 +153,7 @@ export default function Event({history}){
                                         <>
                                             Name: <Input type="text" id="event-name" required onChange={(e)=>{setEventName(e.target.value)}} value={eventName}></Input>
                                             Date: <Input type="date" onChange={(e)=>{setDate(e.target.value)}} value={moment(date).format('YYYY-MM-DD')}></Input>
-                                            Description: <Input type="text" onChange={(e)=>{setDescription(e.target.value)}} value={description}></Input>
+                                            Description: <TextArea type="text" onChange={(e)=>{setDescription(e.target.value)}} value={description}></TextArea>
                                             Start time: <Input type="time" onChange={(e)=>{setStartTime(e.target.value)}} value={startTime}></Input>
                                             End time: <Input type="time" onChange={(e)=>{setEndTime(e.target.value)}} value={endTime}></Input> 
                                         </> 

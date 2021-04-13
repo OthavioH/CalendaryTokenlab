@@ -25,10 +25,9 @@ export default function UsersInvite(props){
                 email:localStorage.getItem("email")
             },{
                 headers:{
-                    'authorization':`${localStorage.getItem('token')}`,
-                    'Content-Type':'application/json'
-                }
-            })
+                'authorization':`${localStorage.getItem("token")}`,
+                'Content-Type':'application/json'
+            }})
             .then((res)=>{
                 setDados(res.data.users);
             })
@@ -47,7 +46,7 @@ export default function UsersInvite(props){
                             <UserItemText>Age: {user.age}</UserItemText>
                         </UserItem>
                     );
-                })) : <NoData>There's no users in our database</NoData>}
+                })) : <NoData>There are no users in our database</NoData>}
                 
             </UsersList>
             

@@ -9,6 +9,6 @@ export default function Logout({history}){
     }, [token,history])
 
     return(
-        <h1>logout</h1>
+        <></>
     );
 }

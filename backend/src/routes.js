@@ -12,7 +12,9 @@ routes.get('/',(req,res)=>{
 
 routes.post('/user/register',UserController.store);
 routes.post('/sign_in',AuthController.show);
-routes.get('/all_users',UserController.index);
+
+
+routes.get('/all_users',AuthMiddleware,UserController.index);
 routes.post('/events/create',AuthMiddleware,EventController.store);
 routes.post('/events',AuthMiddleware,EventController.index);
 routes.delete('/events/delete/:id',AuthMiddleware,EventController.delete);

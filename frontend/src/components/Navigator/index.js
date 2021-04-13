@@ -23,7 +23,7 @@ export default function Navigator(){
                 <>
                     <Link to="/user/logout"><NavLogout>Logout</NavLogout></Link>
                     <Link to="/events"><NavButton>Events</NavButton></Link>
-                    <Link to="/events/create"><NavButton>Create Event</NavButton></Link>
+                    <Link to="/events/create"><NavButton>Add Event</NavButton></Link>
                 </>
             )}
         </NavRow>

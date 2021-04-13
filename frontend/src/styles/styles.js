@@ -33,7 +33,7 @@ export const NavButton = styled.button`
     height:35px;
     color:#fff;
     background:#2495d6;
-    border:none;
+    border:2px solid rgba(0,0,0,0.4);
     border-radius:10px;
     box-shadow:5px 5px 15px -7px #000000;
     margin:0px 5px;
@@ -50,7 +50,7 @@ export const NavLogout = styled.button`
     height:35px;
     color:#fff;
     background:red;
-    border:none;
+    border:2px solid rgba(0,0,0,0.4);
     border-radius:10px;
     box-shadow:5px 5px 15px -7px #000000;
     margin:0px 5px;
