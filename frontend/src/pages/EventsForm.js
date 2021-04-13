@@ -32,6 +32,7 @@ export default function EventsForm({history}){
         if(res.data.error){
             return document.getElementById("labelError").innerHTML = res.data.error;
         }
+        history.push('/events');
     }
 
     return(

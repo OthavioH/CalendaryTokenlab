@@ -12,8 +12,11 @@ routes.get('/',(req,res)=>{
 
 routes.post('/user/register',UserController.store);
 routes.post('/sign_in',AuthController.show);
-routes.get('/all_users',AuthMiddleware,UserController.index);
+routes.get('/all_users',UserController.index);
 routes.post('/events/create',AuthMiddleware,EventController.store);
-routes.post('/events',EventController.index);
+routes.post('/events',AuthMiddleware,EventController.index);
+routes.delete('/events/delete/:id',AuthMiddleware,EventController.delete);
+routes.put('/event/update',AuthMiddleware,EventController.update);
+routes.get('/event',AuthMiddleware,EventController.show);
 
 module.exports = routes;

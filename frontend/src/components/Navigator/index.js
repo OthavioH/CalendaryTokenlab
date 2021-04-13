@@ -22,7 +22,7 @@ export default function Navigator(){
             ):(
                 <>
                     <Link to="/user/logout"><NavLogout>Logout</NavLogout></Link>
-                    <Link to="/users"><NavButton>Users</NavButton></Link>
+                    <Link to="/events"><NavButton>Events</NavButton></Link>
                     <Link to="/events/create"><NavButton>Create Event</NavButton></Link>
                 </>
             )}

@@ -33,11 +33,16 @@ export const NavButton = styled.button`
     height:35px;
     color:#fff;
     background:#2495d6;
-    border:2px solid #000;
+    border:none;
     border-radius:10px;
+    box-shadow:5px 5px 15px -7px #000000;
     margin:0px 5px;
     cursor:pointer;
     text-decoration:none;
+
+    &:hover {
+        box-shadow:none;
+    }
 `;
 
 export const NavLogout = styled.button`
@@ -45,11 +50,16 @@ export const NavLogout = styled.button`
     height:35px;
     color:#fff;
     background:red;
-    border:2px solid #000;
+    border:none;
     border-radius:10px;
+    box-shadow:5px 5px 15px -7px #000000;
     margin:0px 5px;
     cursor:pointer;
     text-decoration:none;
+
+    &:hover {
+        box-shadow:none;
+    }
 `;
 
 export const Form = styled.form`
@@ -107,7 +117,6 @@ export const UsersList = styled.div`
     min-width:300px;
     background:#fff;
     font-size:18px;
-    border:4px solid #2495d6;
     display:flex;
     flex-direction:column;
     padding:0px 10px;
@@ -143,10 +152,11 @@ export const EventsList = styled.div`
     min-width:300px;
     background:#fff;
     font-size:18px;
-    border:4px solid #2495d6;
+    border:1px solid rgba(0,0,0,0.3);
     display:flex;
     flex-direction:column;
     padding:10px 10px;
+    box-shadow:5px 5px 15px -7px #000000;
 `;
 
 export const EventItem = styled.div`
@@ -156,6 +166,7 @@ export const EventItem = styled.div`
     display:grid;
     grid-template-columns:repeat(3,1fr)
     margin-bottom:10px;
+    padding:0px 10px;
 `;
 
 export const EventItemTitle = styled.p`
@@ -182,7 +193,7 @@ export const EventSpan = styled.span`
     border-bottom: 2px solid #000;
     background:white;
     display:flex;
-    flex-direction:rows;
+    flex-direction:columns;
     text-align:left;
     padding:0px 10px;
 `;
@@ -190,5 +201,5 @@ export const EventSpan = styled.span`
 export const EventDiv = styled.div`
     width:100%;
     margin-bottom:10px;
-    box-shadow:5px 5px 15px -7px #000000;
+    box-shadow:5px 5px 15px -10px #000000;
 `;

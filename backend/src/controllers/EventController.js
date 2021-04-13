@@ -1,6 +1,5 @@
 const Events = require('../models/Events');
 const Users = require('../models/Users');
-const ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
     async store(req,res){
@@ -33,6 +32,41 @@ module.exports = {
         });
 
         return res.json(events);
+    },
+    async delete(req,res){
+        const {id} = req.params;
+
+        const event = await Events.deleteOne({_id:id});
+        if(!event){
+            return res.json({error:'Erro ao tentar achar o evento'})
+        }
+
+        return res.send("Personagem deletado com sucesso");
+    },
+    async update(req,res){
+        const {id, name, date, description, startTime, endTime} = req.body;
+
+        const event = await Events.updateOne({_id:id},{
+            name:name,
+            description:description,
+            date:date,
+            startTime:startTime,
+            endTime:endTime
+        }).catch((err)=>{
+            return res.json({error:err});
+        })
+
+        return res.json(event);
+        
+    },
+    async show(req,res){
+        const {eventId} = req.query;
+
+        const event = await Events.findOne({_id:eventId});
+        if(!event){
+            return res.json({error:'Erro ao tentar achar o evento'})
+        }
+        return res.json(event);
     }
 }
 

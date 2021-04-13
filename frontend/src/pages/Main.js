@@ -1,8 +1,11 @@
 import React,{useState, useEffect} from 'react';
 import api from '../services/api';
+import verifyToken from '../services/verifyToken';
+
 import GlobalStyle from '../styles/global';
 import {Container,Section,Form,Title,Input,Button,ErrorLabel} from '../styles/styles';
 import Navigator from '../components/Navigator/index';
+
 
 export default function Main({history}){
     const [name,setName] = useState('');
@@ -12,12 +15,11 @@ export default function Main({history}){
     const [cfrPassword,setCfrPassword] = useState('');
 
     useEffect(() => {
-        function verifyToken(){
-            if(localStorage.getItem('token') !=null){
-                history.push('/users');
-            }
+        
+        const isTokenValid = verifyToken();
+        if(isTokenValid){
+            history.push('/events');
         }
-        verifyToken();
     }, [history])
 
     async function handleSubmit(event){
@@ -37,7 +39,7 @@ export default function Main({history}){
 
         localStorage.setItem("token",res.data.token);
         localStorage.setItem("email",res.data.user.email);
-        history.push('/users');
+        history.push('/events');
     }
 
     return(

@@ -32,7 +32,8 @@ module.exports = {
         return res.json({user,token:generateToken({email:user.email})});
     },
     async index(req,res){
-        const users = await Users.find({});
+
+        const users = await Users.find();
 
         removePasswords(users);
 
@@ -48,7 +49,7 @@ function generateToken(params = {}){
 
 function removePasswords(usersList){
     usersList.map((user)=>{
-        user.senha = undefined;
+        user.password = undefined;
     });
 }
 
