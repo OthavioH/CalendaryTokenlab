@@ -11,29 +11,28 @@ export default function UsersInvite(props){
     const [show,setShow] = useState(false);
 
     useEffect(() => {
-        getUsers();
         setShow(props.show);
         if(show){
             document.getElementById("invite-menu").style.display = "block";
+            getUsers();
         }
         else{
             document.getElementById("invite-menu").style.display = "none";
         }
+    }, [props.show,show])
 
-        async function getUsers(){
-            await api.get('/all_users',{
-                email:localStorage.getItem("email")
-            },{
-                headers:{
+    async function getUsers(){
+        await api.post('/all_users',{},{
+            headers:{
                 'authorization':`${localStorage.getItem("token")}`,
                 'Content-Type':'application/json'
-            }})
-            .then((res)=>{
-                setDados(res.data.users);
-            })
-            
-        }
-    }, [dados,props,show])
+            }
+        })
+        .then((res)=>{
+            setDados(res.data.users);
+        })
+        
+    }
 
     return (
         <InviteMenu id="invite-menu">

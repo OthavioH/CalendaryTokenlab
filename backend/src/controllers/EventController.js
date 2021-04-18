@@ -16,14 +16,14 @@ module.exports = {
             author:author._id,
         }).catch((err)=>{
             console.log(err);
-            return res.json({error:"Erro ao tentar cadastrar novo evento"});
+            return res.status(400).json({error:"Erro ao tentar cadastrar novo evento"});
         })
         return res.json(event);
     },
     async index(req,res){
-        const {userEmail} = req.body;
+        const {email} = req.body;
 
-        const author = await Users.findOne({email:userEmail});
+        const author = await Users.findOne({email:email});
 
         const events = await Events.find({author: author._id});
 
@@ -31,17 +31,17 @@ module.exports = {
             sortEvents(a,b);
         });
 
-        return res.json(events);
+        return res.status(200).json(events);
     },
     async delete(req,res){
         const {id} = req.params;
 
         const event = await Events.deleteOne({_id:id});
         if(!event){
-            return res.json({error:'Erro ao tentar achar o evento'})
+            return res.status(400).json({error:'Erro ao tentar achar o evento'})
         }
 
-        return res.send("Personagem deletado com sucesso");
+        return res.status(200).send("Personagem deletado com sucesso");
     },
     async update(req,res){
         const {id, name, date, description, startTime, endTime} = req.body;
@@ -53,7 +53,7 @@ module.exports = {
             startTime:startTime,
             endTime:endTime
         }).catch((err)=>{
-            return res.json({error:err});
+            return res.status(400).json({error:err});
         })
 
         return res.json(event);
@@ -64,7 +64,7 @@ module.exports = {
 
         const event = await Events.findOne({_id:eventId});
         if(!event){
-            return res.json({error:'Erro ao tentar achar o evento'})
+            return res.status(404).json({error:'Erro ao tentar achar o evento'})
         }
         return res.json(event);
     }

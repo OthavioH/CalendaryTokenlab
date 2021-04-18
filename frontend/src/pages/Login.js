@@ -20,18 +20,18 @@ export default function Login({history}){
     async function handleSubmit(event){
         event.preventDefault();
 
-        const res = await api.post('/sign_in',{
+        await api.post('/sign_in',{
             email:email,
             password:password
-        });
-
-        if(res.data.error){
-            return document.getElementById("labelError").innerHTML = res.data.error;
-        }
-
-        localStorage.setItem('token',res.data.token);
-        localStorage.setItem('email',res.data.user.email);
-        history.push('/events');
+        })
+        .catch((error)=>{
+            return document.getElementById("labelError").innerHTML = error.response.data.error;
+        })
+        .then((response)=>{
+            localStorage.setItem('token',response.data.token);
+            localStorage.setItem('email',response.data.user.email);
+            history.push('/events');
+        })
     }
 
     return(

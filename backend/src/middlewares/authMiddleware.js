@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const authConfig = require('../config/auth.json');
 
 module.exports = (req,res,next)=>{
     const authHeader = req.headers.authorization;
@@ -7,11 +6,11 @@ module.exports = (req,res,next)=>{
     if(!authHeader)
         return res.status(401).send({error: 'Nenhum token recebido'});
 
-    jwt.verify(authHeader,authConfig.secret,(err,decoded)=>{
+    jwt.verify(authHeader,process.env.SECRET,(err,decoded)=>{
         if(err){
             return res.status(401).send({error:'Token inválido'});
         }
-        req.email = decoded.email;
+        req.body.email = decoded.email;
         return next();
     });
 }

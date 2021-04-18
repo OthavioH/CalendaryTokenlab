@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
 
-import { Container, Section, EventsList, EventItemTitle, EventItem, EventSpan,NoData,EventDiv} from '../styles/styles';
+import { Container, Section, EventsList, EventItemTitle, EventsItem, EventSpan,NoData,EventDiv} from '../styles/styles';
 import Navigator from '../components/Navigator/index';
 import api from '../services/api';
 import verifyToken from '../services/verifyToken';
@@ -13,58 +13,64 @@ import edit from '../assets/edit.png';
 
 export default function Events({history}){
     const [eventData,setEventData] = useState([]);
+    const [display, setDisplay] = useState('grid');
+
 
     useEffect(() => {
 
         const isTokenValid = verifyToken();
-        if(!isTokenValid){
-            history.push('/');
-        }
-        else{
+        if(isTokenValid){
             getEvents();
         }
+        
+    },[])
 
-        async function getEvents(){
-            await api.post('/events',{
-                userEmail:localStorage.getItem("email"),
-            },{
-                headers:{
-                    'authorization':`${localStorage.getItem("token")}`,
-                    'Content-Type':'application/json'
-                }
-            })
-            .then((res)=>{
-                setEventData(res.data);
-            });
-        }
-    }, [history,eventData,])
+    async function getEvents(){
+        await api.post('/events',{},{
+            headers:{
+                'authorization':`${localStorage.getItem("token")}`,
+                'Content-Type':'application/json'
+            }
+        })
+        .then((response)=>{
+            if(response.status){
+                setEventData(response.data);
+            }
+            
+        });
+    }
 
 
     function toggleVisibility(id){
-        let display = document.getElementById(`event${id}`).style.display;
 
         if(display !== 'none'){
-            document.getElementById(`event${id}`).style.display = 'none';
+            setDisplay('none');
         }
         else{
-            document.getElementById(`event${id}`).style.display = 'grid';
+            setDisplay('grid');
         }
+        document.getElementById(`event${id}`).style.display = display;
     }
 
     async function confirmDelete(event){
         var r = window.confirm("Você tem certeza que quer excluir este personagem?");
         if(r===true){
-            const res = await api.delete(`/events/delete/${event._id}`,
+            await api.delete(`/events/delete/${event._id}`,
                 {headers:{
                         'authorization':`${localStorage.getItem("token")}`,
                         'Content-Type':'application/json'
                     }
                 }
-            );
-            if(res.data.error){
-                return console.log(res.data.error);
-            }
-            history.push('/');
+            )
+            .catch((error)=>{
+                return console.log(error.response.data.error);
+            })
+            .then((response)=>{
+    
+                if(response.status){
+                    history.push('/');
+                }
+            })
         }
     }
 
@@ -97,14 +103,14 @@ export default function Events({history}){
                                     </div>
                                     
                                 </EventSpan>
-                                <EventItem id={`event${i}`}>
+                                <EventsItem id={`event${i}`}>
 
                                     <EventItemTitle>Name: {event.name}</EventItemTitle>
                                     <EventItemTitle>Date: {moment(event.date).format('DD/MM/YYYY')}</EventItemTitle>
                                     <EventItemTitle>Description: {event.description}</EventItemTitle>
                                     <EventItemTitle>Start time: {event.startTime}</EventItemTitle>
                                     <EventItemTitle>End time: {event.endTime}</EventItemTitle>
-                                </EventItem>
+                                </EventsItem>
                             </EventDiv> 
                         );
                     })) : <NoData>You have no events</NoData>}

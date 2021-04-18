@@ -1,13 +1,15 @@
+require('dotenv/config');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const routes = require('./routes');
 
+const db_URL = process.env.DB_URL;
 
 const server = express();
 
-mongoose.connect('mongodb+srv://admin:admin@register.voxyz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{
+mongoose.connect(db_URL,{
     useNewUrlParser:true,
     useUnifiedTopology:true
 });

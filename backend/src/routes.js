@@ -1,4 +1,5 @@
 const express = require('express');
+
 const AuthController = require('./controllers/AuthController');
 const AuthMiddleware = require('./middlewares/authMiddleware');
 const UserController = require('./controllers/UserController');
@@ -14,7 +15,7 @@ routes.post('/user/register',UserController.store);
 routes.post('/sign_in',AuthController.show);
 
 
-routes.get('/all_users',AuthMiddleware,UserController.index);
+routes.post('/all_users',AuthMiddleware,UserController.index);
 routes.post('/events/create',AuthMiddleware,EventController.store);
 routes.post('/events',AuthMiddleware,EventController.index);
 routes.delete('/events/delete/:id',AuthMiddleware,EventController.delete);

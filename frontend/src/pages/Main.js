@@ -14,8 +14,25 @@ export default function Main({history}){
     const [password,setPassword] = useState('');
     const [cfrPassword,setCfrPassword] = useState('');
 
+    const [date,setDate] = useState('');
+
     useEffect(() => {
         
+        let date = new Date();
+        let yyyy = date.getFullYear();
+        let mm = date.getMonth()+1;
+        let dd = date.getDay();
+
+        if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        }
+
+        date = yyyy+'-'+mm+'-'+dd;
+        setDate(date);
+
         const isTokenValid = verifyToken();
         if(isTokenValid){
             history.push('/events');
@@ -25,22 +42,27 @@ export default function Main({history}){
     async function handleSubmit(event){
         event.preventDefault();
 
-        const res = await api.post('/user/register',{
+        await api.post('/user/register',{
             name:name,
             email:email,
             birthDate:birthDate,
             password:password,
             cfrPassword:cfrPassword
-        });
+        })
+        .catch((error)=>{
+            return document.getElementById("labelError").innerHTML = error.response.data.error;
+        })
+        .then((response)=>{
+            console.log(response.status);
 
-        if(res.data.error){
-            return document.getElementById("labelError").innerHTML = res.data.error;
-        }
-
-        localStorage.setItem("token",res.data.token);
-        localStorage.setItem("email",res.data.user.email);
-        history.push('/events');
+            if(response.status === 200){
+                localStorage.setItem("token",response.data.token);
+                localStorage.setItem("email",response.data.user.email);
+                history.push('/events');
+            }
+        })
     }
+
 
     return(
         <Container>
@@ -53,7 +75,7 @@ export default function Main({history}){
                     <label htmlFor="email">Email:</label>
                     <Input type="text" id="email" required onChange={(e)=>{setEmail(e.target.value)}}></Input>
                     <label htmlFor="birth_date">Birth date:</label>
-                    <Input type="date" id="birth_date" required max="2021-03-31" onChange={(e)=>{setBirthDate(e.target.value)}}></Input>
+                    <Input type="date" id="birth_date" required max={date} onChange={(e)=>{setBirthDate(e.target.value)}}></Input>
                     <label htmlFor="password">Password:</label>
                     <Input type="password" id="password" minLength="6" required onChange={(e)=>{setPassword(e.target.value)}}></Input>
                     <label htmlFor="cfpassword">Confirm password:</label>

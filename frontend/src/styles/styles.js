@@ -169,6 +169,16 @@ export const EventItem = styled.div`
     padding:0px 10px;
 `;
 
+export const EventsItem = styled.div`
+    width:98%;
+    min-height:50px;
+    border-bottom:2px solid #e0e0e0;
+    display:none;
+    grid-template-columns:repeat(3,1fr)
+    margin-bottom:10px;
+    padding:0px 10px;
+`;
+
 export const EventItemTitle = styled.p`
     width:100%;
     height:10px;

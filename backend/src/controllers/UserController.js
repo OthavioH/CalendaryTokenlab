@@ -1,7 +1,6 @@
 const Users = require('../models/Users');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const authConfig = require('../config/auth.json');
+const generateToken = require('../services/generateToken');
 
 module.exports = {
     async store(req,res){
@@ -9,12 +8,12 @@ module.exports = {
 
         const userExists = await Users.findOne({email:email});
         if(userExists){
-            return res.json({error:'Já existe um usuário registrado com este email'})
+            return res.status(400).json({error:'Já existe um usuário registrado com este email'})
         }
 
         const passwordError = validatePasswords(password,cfrPassword);
         if(passwordError){
-            return res.json({error:'As senhas são diferentes'})
+            return res.status(400).json({error:'As senhas são diferentes'});
         }
 
         const date = new Date(birthDate);
@@ -32,19 +31,13 @@ module.exports = {
         return res.json({user,token:generateToken({email:user.email})});
     },
     async index(req,res){
-
+        
         const users = await Users.find();
 
         removePasswords(users);
 
         return res.json({users});
     }
-}
-
-function generateToken(params = {}){
-    return jwt.sign(params, authConfig.secret,{
-        expiresIn:86400,
-    })
 }
 
 function removePasswords(usersList){

@@ -31,33 +31,32 @@ export default function Event({history}){
         return new URLSearchParams(useLocation().search);
     }
 
-    console.log(query.get("id"));
-
     useEffect(() => {
         const isTokenValid = verifyToken();
-        if(!isTokenValid){
-            history.push('/');
-        }
-        else{
+        if(isTokenValid){
             getEvent();
         }
 
-        async function getEvent(){
-            await api.get(`/event/?eventId=${query.get("id")}`,{
-                headers:{
-                    'authorization':`${localStorage.getItem("token")}`,
-                    'Content-Type':'application/json'
-                }
-            })
-            .then((res)=>{
-                setEventData(res.data);
-            });
-        }
-    }, [eventData,query,history])
+    },[])
 
+
+    async function getEvent(){
+        await api.get(`/event/?eventId=${query.get("id")}`,{
+            headers:{
+                'authorization':`${localStorage.getItem("token")}`,
+                'Content-Type':'application/json'
+            }
+        })
+        .then((response)=>{
+            if(response.status){
+                setEventData(response.data);
+            }
+            
+        });
+    }
 
     async function updateEvent(){
-        const res = await api.put('/event/update',{
+        await api.put('/event/update',{
             id:query.get("id"),
             name:eventName,
             date:date,
@@ -67,11 +66,15 @@ export default function Event({history}){
         },{headers:{
             'authorization':`${localStorage.getItem("token")}`,
             'Content-Type':'application/json'
-        }});
-        if(res.data.error){
-            console.log(res.data.error);
-        }
-        setOnEditMode(false);
+        }})
+        .catch((error)=>{
+            return console.log(error.response.data.error);
+        })
+        .then((response)=>{
+            if(response.status){
+                setOnEditMode(false);
+            }
+        })
     }
 
     async function confirmDelete(event){
