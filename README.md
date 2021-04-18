@@ -11,6 +11,7 @@ Dependências do back-end:
 - Cors
 - Morgan
 - Nodemon
+- dotenv
 
 Dependências do front-end:
 
